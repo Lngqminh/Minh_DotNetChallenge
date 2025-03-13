@@ -10,3 +10,12 @@
 /BPMaster/BPMaster.csproj.user
 /BPMaster/.config
 /BPMaster/Properties
+*.dll
+DotNetTraining/bin/Debug/net8.0/DotNetTraining.dll
+*.exe
+*.pdb
+*.exe
+*.cache
+*.cache
+*.dll
+*.pdb

@@ -3,6 +3,7 @@ using Application.Settings;
 using Common.Application;
 using Common.Databases;
 using Common.Loggers.Interfaces;
+using DotNetTraining.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 
@@ -36,7 +37,7 @@ namespace Application
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ApplicationSetting>(_builder.Configuration.GetSection("ApplicationSetting"));
-            
+
         }
     }
 }
