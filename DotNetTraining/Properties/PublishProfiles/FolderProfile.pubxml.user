@@ -10,7 +10,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
   </PropertyGroup>
   <ItemGroup>
     <File Include="Common/Application/Models/UserModel.cs">
-      <publishTime>02/17/2025 17:27:53</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
   </ItemGroup>
 </Project>

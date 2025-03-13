@@ -9,7 +9,7 @@ namespace Common.Services
     {
         protected ILogManager _logger = services.GetRequiredService<ILogManager>();
         protected IServiceProvider _services = services;
-        //protected IMapper _mapper = services.GetRequiredService<IMapper>();
+        protected IMapper _mapper = services.GetRequiredService<IMapper>();
         protected IUnitsOfWork _unitsOfWork = services.GetRequiredService<IUnitsOfWork>();
     }
 }

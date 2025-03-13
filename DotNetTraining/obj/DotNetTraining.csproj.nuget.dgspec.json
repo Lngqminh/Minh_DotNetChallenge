@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\MeU_Solutions\\Project\\DotNetTraining\\DotNetTraining\\DotNetTraining.csproj": {}
+    "D:\\MeU_Solutions\\Project\\Challenge\\Minh_DotNetChallenge\\DotNetTraining\\DotNetTraining.csproj": {}
   },
   "projects": {
-    "D:\\MeU_Solutions\\Project\\DotNetTraining\\DotNetTraining\\DotNetTraining.csproj": {
+    "D:\\MeU_Solutions\\Project\\Challenge\\Minh_DotNetChallenge\\DotNetTraining\\DotNetTraining.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\MeU_Solutions\\Project\\DotNetTraining\\DotNetTraining\\DotNetTraining.csproj",
+        "projectUniqueName": "D:\\MeU_Solutions\\Project\\Challenge\\Minh_DotNetChallenge\\DotNetTraining\\DotNetTraining.csproj",
         "projectName": "DotNetTraining",
-        "projectPath": "D:\\MeU_Solutions\\Project\\DotNetTraining\\DotNetTraining\\DotNetTraining.csproj",
+        "projectPath": "D:\\MeU_Solutions\\Project\\Challenge\\Minh_DotNetChallenge\\DotNetTraining\\DotNetTraining.csproj",
         "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-        "outputPath": "D:\\MeU_Solutions\\Project\\DotNetTraining\\DotNetTraining\\obj\\",
+        "outputPath": "D:\\MeU_Solutions\\Project\\Challenge\\Minh_DotNetChallenge\\DotNetTraining\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -43,9 +43,9 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "all"
+          "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -191,7 +191,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

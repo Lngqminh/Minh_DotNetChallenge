@@ -8,65 +8,31 @@ using DotNetTraining.Domains.Entities;
 using DotNetTraining.Repositories;
 using Newtonsoft.Json;
 using System.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace DotNetTraining.Services
 {
-    //public class UserService : IUserService
-    //{
-    //    private readonly IUserRepository _userRepository;
-    //    private readonly IMapper _mapper;
-
-    //    public UserService(IUserRepository userRepository, IMapper mapper)
-    //    {
-    //        _userRepository = userRepository;
-    //        _mapper = mapper;
-    //    }
-
-    //    public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
-    //    {
-    //        var users = await _userRepository.GetAllUsersAsync();
-    //        return _mapper.Map<IEnumerable<UserDto>>(users);
-    //    }
-
-    //    public async Task<UserDto?> GetUserByIdAsync(int id)
-    //    {
-    //        var user = await _userRepository.GetUserByIdAsync(id);
-    //        return user == null ? null : _mapper.Map<UserDto>(user);
-    //    }
-
-    //    public async Task<UserDto> CreateUserAsync(CreateUserDto userDto)
-    //    {
-    //        var user = _mapper.Map<User>(userDto);
-    //        var createdUser = await _userRepository.CreateUserAsync(user);
-    //        return _mapper.Map<UserDto>(createdUser);
-    //    }
-
-    //    public async Task UpdateUserAsync(int id, UpdateUserDto userDto)
-    //    {
-    //        var user = await _userRepository.GetUserByIdAsync(id);
-    //        if (user == null) return;
-
-    //        _mapper.Map(userDto, user);
-    //        await _userRepository.UpdateUserAsync(user);
-    //    }
-
-    //    public async Task DeleteUserAsync(int id) => await _userRepository.DeleteUserAsync(id);
-    //}
     [ScopedService]
-    public class UserService(IServiceProvider services,
-        ApplicationSetting setting,
-        IDbConnection connection): BaseService(services)
+    public class UserService(IServiceProvider services,ApplicationSetting setting,IDbConnection connection): BaseService(services)
     {
         private readonly UserRepository _repo = new(connection);
-           public async Task<IEnumerable<User>> GetAllUsersAsync()
+        public async Task<List<UserDto>> GetAllUsers()
         {
-            var users = await _repo.GetAllUsersAsync();
-            return users;
-            
+            var users = await _repo.GetAllUsers();
+
+            var result = _mapper.Map<List<UserDto>>(users);
+
+            return result;
+
         }
 
+        public async Task<User?> CreateUser(UserDto newUser)
+        {
+            var user = _mapper.Map<User>(newUser);
+            user.Id = Guid.NewGuid();
 
-
+            return await _repo.Create(user);
+        }
 
     }
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "RYyTcMm6I04=",
+  "dgSpecHash": "n2JUlLjsCRc=",
   "success": true,
-  "projectFilePath": "D:\\MeU_Solutions\\Project\\DotNetTraining\\DotNetTraining\\DotNetTraining.csproj",
+  "projectFilePath": "D:\\MeU_Solutions\\Project\\Challenge\\Minh_DotNetChallenge\\DotNetTraining\\DotNetTraining.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\HP\\.nuget\\packages\\asp.versioning.abstractions\\8.1.0\\asp.versioning.abstractions.8.1.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\asp.versioning.http\\8.1.0\\asp.versioning.http.8.1.0.nupkg.sha512",
@@ -215,16 +215,5 @@
     "C:\\Users\\HP\\.nuget\\packages\\system.xml.xpath\\4.0.1\\system.xml.xpath.4.0.1.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\system.xml.xpath.xdocument\\4.0.1\\system.xml.xpath.xdocument.4.0.1.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1903",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'System.Text.Json' 8.0.4 has a known high severity vulnerability, https://github.com/advisories/GHSA-8g4q-xg66-9fp4",
-      "libraryId": "System.Text.Json",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  "logs": []
 }

@@ -1,10 +1,10 @@
+using Common.Domains.Entities;
 using System;
 
 namespace BPMaster.Domains.Entities
 {
-    public class MKT
+    public class MKT:SystemLogEntity<Guid>
     {
-        public int Id { get; set; }
         public bool Tag_Bool { get; set; }
         public int Tag_Integer { get; set; }
         public decimal Tag_Real { get; set; }

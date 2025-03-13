@@ -9,8 +9,7 @@ namespace DotNetTraining.AutoMappers
         public UserProfile()
         {
             CreateMap<User, UserDto>();
-            CreateMap<CreateUserDto, User>();
-            CreateMap<UpdateUserDto, User>();
+            CreateMap<UserDto, User>();
         }
     }
 }

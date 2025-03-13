@@ -1,12 +1,17 @@
 [
   {
     "ContainingType": "UsersController",
-    "Method": "GetUsers",
-    "RelativePath": "api/users",
-    "HttpMethod": "GET",
+    "Method": "CreateUser",
+    "RelativePath": "api/users/create",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DotNetTraining.Domains.Dtos.UserDto",
+        "IsRequired": true
+      },
       {
         "Name": "api-version",
         "Type": "System.String",
@@ -17,8 +22,8 @@
   },
   {
     "ContainingType": "UsersController",
-    "Method": "GetAllBP",
-    "RelativePath": "api/users/test",
+    "Method": "GetAllUsers",
+    "RelativePath": "api/users/getallusers",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -29,16 +34,6 @@
         "IsRequired": false
       }
     ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "BPMaster.Controllers.v1.MKTController",
-    "Method": "GetAllBP",
-    "RelativePath": "api/v1/mkt/getallstatus",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
     "ReturnTypes": []
   }
 ]

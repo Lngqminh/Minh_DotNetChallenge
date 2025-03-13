@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using Application.Settings;
-using BPMaster.Services;
+//using BPMaster.Services;
 using Common.Controllers;
 using DotNetTraining.Domains.Dtos;
 using DotNetTraining.Services;
@@ -21,23 +21,17 @@ public class UsersController : BaseV1Controller<UserService, ApplicationSetting>
         this._userService = services.GetService<UserService>()!;
     }
 
-    [HttpGet] public async Task<IActionResult> GetUsers() => Ok(await _userService.GetAllUsersAsync());
 
-  
-
-    [HttpGet("test")]
-    public async Task<IActionResult> GetAllBP()
+    [HttpGet("getAllUsers")]
+    public async Task<IActionResult> GetAllUsers()
     {
-        try
-        {
-            
-            string result = "Test";
-            Console.WriteLine($"Response: {result}");
-            return Success("ok");
-        }
-        catch (Exception ex)
-        {
-            return Error(ex.Message);
-        }
+        var user = await _userService.GetAllUsers();
+        return Success(user);
+    }
+
+    [HttpPost("create")]
+    public async Task<IActionResult> CreateUser([FromBody] UserDto dto)
+    {
+        return CreatedSuccess(await _service.CreateUser(dto));
     }
 }

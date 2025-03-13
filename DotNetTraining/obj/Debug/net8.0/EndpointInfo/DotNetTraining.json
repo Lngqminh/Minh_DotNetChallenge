@@ -14,19 +14,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/v1/mkt/getallstatus": {
-      "get": {
-        "tags": [
-          "MKT"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/users": {
+    "/api/users/getallusers": {
       "get": {
         "tags": [
           "Users"
@@ -50,8 +38,8 @@
         }
       }
     },
-    "/api/users/test": {
-      "get": {
+    "/api/users/create": {
+      "post": {
         "tags": [
           "Users"
         ],
@@ -67,6 +55,25 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Success"
@@ -76,6 +83,22 @@
     }
   },
   "components": {
+    "schemas": {
+      "UserDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
     "securitySchemes": {
       "Bearer": {
         "type": "http",
