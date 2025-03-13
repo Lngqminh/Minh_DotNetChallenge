@@ -1,0 +1,105 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "BP Master Service API Document",
+    "description": "List of public APIs- Version 1.0 in BP Master Service",
+    "contact": {
+      "name": "Author name",
+      "email": "developer@meu.com"
+    },
+    "license": {
+      "name": "LSP License",
+      "url": "http://localhost"
+    },
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/v1/mkt/getallstatus": {
+      "get": {
+        "tags": [
+          "MKT"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "style": "form",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/users/test": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "style": "form",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Please enter token",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "Signature": {
+        "type": "apiKey",
+        "description": "Default Signature Header",
+        "name": "Signature",
+        "in": "header"
+      },
+      "Time": {
+        "type": "apiKey",
+        "description": "Default Time Header",
+        "name": "Time",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}
