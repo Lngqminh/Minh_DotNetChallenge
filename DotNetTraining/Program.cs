@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using Application;
 using DotNetTraining.AutoMappers;
-using DotNetTraining.Data;
 using DotNetTraining.Repositories;
 using DotNetTraining.Services;
 using Microsoft.AspNetCore.Http.Features;

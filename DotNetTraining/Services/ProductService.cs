@@ -1,4 +1,5 @@
 ﻿using Application.Settings;
+using Common.Application.CustomAttributes;
 using Common.Services;
 using DotNetTraining.Domains.Dtos;
 using DotNetTraining.Domains.Entities;
@@ -7,6 +8,7 @@ using System.Data;
 
 namespace DotNetTraining.Services
 {
+    [ScopedService]
     public class ProductService(IServiceProvider services, ApplicationSetting setting, IDbConnection connection) : BaseService(services)
     {
         private readonly ProductRepository _repo = new(connection);
@@ -44,6 +46,6 @@ namespace DotNetTraining.Services
         {
             var product = await _repo.GetById(id);
             await _repo.Delete(id);
-        }   
+        }
     }
 }

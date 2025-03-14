@@ -1,17 +1,19 @@
 ﻿using Common.Repositories;
-using Dapper;
 using DotNetTraining.Domains.Entities;
 using System.Data;
+using Dapper;
+using DotNetTraining.Domains.Entities;  
+using Microsoft.EntityFrameworkCore;
 
 namespace DotNetTraining.Repositories
 {
-    public class ProductRepository(IDbConnection connection) : SimpleCrudRepository<Product, Guid>(connection)
+    public class ProductRepository(IDbConnection connection): SimpleCrudRepository<Product, Guid>(connection)
     {
         public async Task<List<Product>> GetAll()
         {
             var sql = "SELECT * FROM Product";
-            var products = await _connection.QueryAsync<Product>(sql);
-            return products.ToList();
+            var product = await _connection.QueryAsync<Product>(sql);
+            return product.ToList();
         }
 
         public async Task<Product?> GetById(Guid id)
@@ -44,6 +46,7 @@ namespace DotNetTraining.Repositories
             var sql = "DELETE FROM Product WHERE Id = @Id";
             await _connection.ExecuteAsync(sql, new { Id = id });
         }
+
 
     }
 }

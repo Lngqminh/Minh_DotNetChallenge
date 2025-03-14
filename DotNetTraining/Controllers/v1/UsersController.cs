@@ -14,7 +14,6 @@ public class UsersController : BaseV1Controller<UserService, ApplicationSetting>
     public UsersController(
             IServiceProvider services,
             IHttpContextAccessor httpContextAccessor
-   
             )
             : base(services, httpContextAccessor)
     {
@@ -41,6 +40,12 @@ public class UsersController : BaseV1Controller<UserService, ApplicationSetting>
     public async Task<IActionResult> CreateUser([FromBody] UserDto dto)
     {
         return CreatedSuccess(await _service.CreateUser(dto));
+    }
+
+    [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] UserDto dto)
+    {
+        return Success(await _service.GetUserByEmailAndPassword(dto.Email, dto.Password));
     }
 
     [HttpPut("update")]

@@ -21,8 +21,8 @@ namespace DotNetTraining.Services
 
         public async Task<List<UserDto>> GetAllUsers()
         {
-                var users = await _repo.GetAll();
-                var result = _mapper.Map<List<UserDto>>(users);
+            var users = await _repo.GetAll();
+            var result = _mapper.Map<List<UserDto>>(users);
             return result;
         }
 
@@ -56,6 +56,22 @@ namespace DotNetTraining.Services
         {
             var user = await _repo.GetById(id);
             await _repo.Delete(id);
+        }
+
+        public async Task<User?> GetUserByEmail(string email)
+        {
+            var result = await _repo.GetByEmail(email);
+            if (result == null)
+                throw new Exception("User not found");
+            return result;
+        }
+
+        public async Task<User?> GetUserByEmailAndPassword(string email, string password)
+        {
+            var result = await _repo.GetByEmailAndPassword(email, password);
+            if (result == null)
+                throw new Exception("Not found user");
+            return result;
         }
     }
 }

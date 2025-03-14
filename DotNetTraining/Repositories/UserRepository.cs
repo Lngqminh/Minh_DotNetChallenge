@@ -2,7 +2,6 @@
 using Common.Databases;
 using Common.Repositories;
 using Dapper;
-using DotNetTraining.Data;
 using DotNetTraining.Domains.Dtos;
 using DotNetTraining.Domains.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +48,18 @@ namespace DotNetTraining.Repositories
         {
             var sql = "DELETE FROM Users WHERE Id = @Id";
             await _connection.ExecuteAsync(sql, new {Id = id});
-        }   
+        }
+
+        public async Task<User?> GetByEmail(string email)
+        {
+            var sql = "SELECT * FROM Users WHERE Email = @Email";
+            return await _connection.QuerySingleOrDefaultAsync<User>(sql, new { Email = email });
+        }
+
+        public async Task<User?> GetByEmailAndPassword(string email, string password)
+        {
+            var sql = "SELECT * FROM Users WHERE Email = @Email AND Password = @Password";
+            return await _connection.QuerySingleOrDefaultAsync<User>(sql, new { Email = email, Password = password });
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Application.Settings;
 using Common.Controllers;
 using DotNetTraining.Domains.Dtos;
-using DotNetTraining.Domains.Entities;
 using DotNetTraining.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +13,10 @@ namespace DotNetTraining.Controllers.v1
     {
         private readonly ProductService _productService;
         public ProductController(
-                IServiceProvider services,
-                IHttpContextAccessor httpContextAccessor
-                )
-                : base(services, httpContextAccessor)
+            IServiceProvider services, 
+            IHttpContextAccessor httpContextAccessor
+            ) 
+            : base(services, httpContextAccessor)
         {
             this._productService = services.GetService<ProductService>()!;
         }
@@ -30,28 +29,28 @@ namespace DotNetTraining.Controllers.v1
         }
 
         [HttpGet("getProductById")]
-        public async Task<IActionResult> GetProductById(Guid id)
+        public async Task<IActionResult> GetProductById([FromQuery] Guid id)
         {
             var product = await _productService.GetProductById(id);
             return Success(product);
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateProduct([FromBody] ProductDto product)
+        public async Task<IActionResult> CreateProduct([FromBody] ProductDto dto)
         {
-            return CreatedSuccess(await _productService.CreateProduct(product));
+            return CreatedSuccess(await _service.CreateProduct(dto));
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> UpdateProduct([FromBody] ProductDto product, Guid id)
+        public async Task<IActionResult> UpdateProduct([FromBody] ProductDto dto, Guid id)
         {
-            return Success(await _productService.UpdateProduct(product, id));
+            return Success(await _service.UpdateProduct(dto, id));
         }
 
         [HttpDelete("delete")]
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
-            await _productService.DeleteProduct(id);
+            await _service.DeleteProduct(id);
             return Success("Product deleted successfully");
         }
     }

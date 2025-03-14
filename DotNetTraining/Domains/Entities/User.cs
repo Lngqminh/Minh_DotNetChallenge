@@ -1,5 +1,6 @@
 ﻿using Common.Domains.Entities;
 using Dapper.Contrib.Extensions;
+
 namespace DotNetTraining.Domains.Entities
 {
     [Table("Users")]

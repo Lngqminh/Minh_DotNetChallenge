@@ -1,5 +1,47 @@
 [
   {
+    "ContainingType": "DotNetTraining.Controllers.v1.LoginController",
+    "Method": "Register",
+    "RelativePath": "api/login/sign-in",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DotNetTraining.Domains.Dtos.UserDto",
+        "IsRequired": true
+      },
+      {
+        "Name": "api-version",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DotNetTraining.Controllers.v1.LoginController",
+    "Method": "Login",
+    "RelativePath": "api/login/sign-up",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DotNetTraining.Domains.Dtos.UserDto",
+        "IsRequired": true
+      },
+      {
+        "Name": "api-version",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "DotNetTraining.Controllers.v1.ProductController",
     "Method": "CreateProduct",
     "RelativePath": "api/product/create",
@@ -8,7 +50,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "product",
+        "Name": "dto",
         "Type": "DotNetTraining.Domains.Dtos.ProductDto",
         "IsRequired": true
       },
@@ -87,7 +129,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "product",
+        "Name": "dto",
         "Type": "DotNetTraining.Domains.Dtos.ProductDto",
         "IsRequired": true
       },
@@ -174,6 +216,27 @@
         "Name": "id",
         "Type": "System.Guid",
         "IsRequired": false
+      },
+      {
+        "Name": "api-version",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UsersController",
+    "Method": "Login",
+    "RelativePath": "api/users/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DotNetTraining.Domains.Dtos.UserDto",
+        "IsRequired": true
       },
       {
         "Name": "api-version",

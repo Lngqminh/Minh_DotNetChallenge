@@ -19,3 +19,6 @@ DotNetTraining/bin/Debug/net8.0/DotNetTraining.dll
 *.cache
 *.dll
 *.pdb
+*.dll
+*.exe
+*.pdb
