@@ -25,7 +25,8 @@ namespace Common.Repositories
 		}
 		public async Task<T> GetByIdAsync(ID id)
 		{
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+			return await _connection.GetAsync<T>(id);
         }
 		public async Task<IEnumerable<T>> GetListByCondition(string sql, object? param = null, object? paging = null, object? sorting = null)
 		{

@@ -22,3 +22,11 @@ DotNetTraining/bin/Debug/net8.0/DotNetTraining.dll
 *.dll
 *.exe
 *.pdb
+*.dll
+*.exe
+*.pdb
+*.exe
+DotNetTraining/obj/Debug/net8.0/DotNetTraining.AssemblyInfo.cs
+DotNetTraining/obj/Debug/net8.0/DotNetTraining.AssemblyInfoInputs.cache
+DotNetTraining/obj/Debug/net8.0/DotNetTraining.pdb
+*.dll

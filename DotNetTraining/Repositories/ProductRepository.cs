@@ -9,42 +9,29 @@ namespace DotNetTraining.Repositories
 {
     public class ProductRepository(IDbConnection connection): SimpleCrudRepository<Product, Guid>(connection)
     {
-        public async Task<List<Product>> GetAll()
+        public async Task<IEnumerable<Product>> GetAll()
         {
-            var sql = "SELECT * FROM Product";
-            var product = await _connection.QueryAsync<Product>(sql);
-            return product.ToList();
+            return await GetAllAsync();
         }
 
         public async Task<Product?> GetById(Guid id)
         {
-            var sql = "SELECT * FROM Product WHERE Id = @Id";
-            return await _connection.QuerySingleOrDefaultAsync<Product>(sql, new { Id = id });
+            return await GetByIdAsync(id);
         }
 
         public async Task<Product?> Create(Product product)
         {
-            var sql = @"
-                INSERT INTO Product (Id, Name, Description, Price) 
-                VALUES (@Id, @Name, @Description, @Price);
-        
-                SELECT * FROM Product WHERE Id = @Id;"; // Lấy lại product vừa tạo
-            return await _connection.QuerySingleOrDefaultAsync<Product>(sql, product);
+            return await CreateAsync(product);
         }
 
-        public async Task<Product?> Update(Product product, Guid id)
+        public async Task<Product?> Update(Product product)
         {
-            var sql = @"
-                UPDATE Product SET Name = @Name, Description = @Description, Price = @Price 
-                WHERE Id = @Id;
-                SELECT * FROM Product WHERE Id = @Id;"; // Lấy lại product sau khi update
-            return await _connection.QuerySingleOrDefaultAsync<Product>(sql, new { product.Name, product.Description, product.Price, Id = id });
+            return await UpdateAsync(product);
         }
 
-        public async Task Delete(Guid id)
+        public async Task Delete(Product product)
         {
-            var sql = "DELETE FROM Product WHERE Id = @Id";
-            await _connection.ExecuteAsync(sql, new { Id = id });
+             await DeleteAsync(product);
         }
 
 

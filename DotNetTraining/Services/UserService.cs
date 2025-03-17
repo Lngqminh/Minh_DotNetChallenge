@@ -21,14 +21,14 @@ namespace DotNetTraining.Services
 
         public async Task<List<UserDto>> GetAllUsers()
         {
-            var users = await _repo.GetAll();
+            var users = await _repo.GetAllAsync();
             var result = _mapper.Map<List<UserDto>>(users);
             return result;
         }
 
         public async Task<User?> GetUserById(Guid id)
         {
-            var result = await _repo.GetById(id);
+            var result = await _repo.GetUserById(id);
             if (result == null)
                 throw new Exception("Not found user");
             return result;
@@ -38,15 +38,16 @@ namespace DotNetTraining.Services
         {
             var user = _mapper.Map<User>(newUser);
             user.Id = Guid.NewGuid();
-            var result = await _repo.Create(user);
+            var result = await _repo.CreateAsync(user);
             if (result == null)
                 throw new Exception("Can not create new user");
             return result;
         }
         public async Task<User?> UpdateUser(UserDto updatedUser, Guid id)
         {
-            var user = _mapper.Map<User>(updatedUser);
-            var result = await _repo.Update(user, id);
+            var exitUser = await _repo.GetUserById(id);
+            var user = _mapper.Map(updatedUser, exitUser);
+            var result = await _repo.UpdateAsync(user);
             if (result == null)
                 throw new Exception("Can Not update user");
             return result;
@@ -54,8 +55,8 @@ namespace DotNetTraining.Services
 
         public async Task DeleteUser(Guid id)
         {
-            var user = await _repo.GetById(id);
-            await _repo.Delete(id);
+            var user = await _repo.GetUserById(id);
+            await _repo.DeleteAsync(user);
         }
 
         public async Task<User?> GetUserByEmail(string email)

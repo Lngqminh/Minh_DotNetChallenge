@@ -43,15 +43,15 @@
   },
   {
     "ContainingType": "DotNetTraining.Controllers.v1.ProductController",
-    "Method": "CreateProduct",
-    "RelativePath": "api/product/create",
-    "HttpMethod": "POST",
+    "Method": "DeleteProduct",
+    "RelativePath": "api/product/delete/product/{id}",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "dto",
-        "Type": "DotNetTraining.Domains.Dtos.ProductDto",
+        "Name": "id",
+        "Type": "System.Guid",
         "IsRequired": true
       },
       {
@@ -64,29 +64,8 @@
   },
   {
     "ContainingType": "DotNetTraining.Controllers.v1.ProductController",
-    "Method": "DeleteProduct",
-    "RelativePath": "api/product/delete",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "api-version",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "DotNetTraining.Controllers.v1.ProductController",
     "Method": "GetAllProducts",
-    "RelativePath": "api/product/getallproducts",
+    "RelativePath": "api/product/get/product",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -102,7 +81,7 @@
   {
     "ContainingType": "DotNetTraining.Controllers.v1.ProductController",
     "Method": "GetProductById",
-    "RelativePath": "api/product/getproductbyid",
+    "RelativePath": "api/product/get/product/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -110,7 +89,28 @@
       {
         "Name": "id",
         "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "api-version",
+        "Type": "System.String",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DotNetTraining.Controllers.v1.ProductController",
+    "Method": "CreateProduct",
+    "RelativePath": "api/product/post/product",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DotNetTraining.Domains.Dtos.ProductDto",
+        "IsRequired": true
       },
       {
         "Name": "api-version",
@@ -123,7 +123,7 @@
   {
     "ContainingType": "DotNetTraining.Controllers.v1.ProductController",
     "Method": "UpdateProduct",
-    "RelativePath": "api/product/update",
+    "RelativePath": "api/product/put/product/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -136,27 +136,6 @@
       {
         "Name": "id",
         "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "api-version",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "UsersController",
-    "Method": "CreateUser",
-    "RelativePath": "api/users/create",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "DotNetTraining.Domains.Dtos.UserDto",
         "IsRequired": true
       },
       {
@@ -170,7 +149,7 @@
   {
     "ContainingType": "UsersController",
     "Method": "DeleteUser",
-    "RelativePath": "api/users/delete",
+    "RelativePath": "api/users/delete/users/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -178,7 +157,28 @@
       {
         "Name": "id",
         "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "api-version",
+        "Type": "System.String",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UsersController",
+    "Method": "GetUserById",
+    "RelativePath": "api/users/get/user/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
       },
       {
         "Name": "api-version",
@@ -191,7 +191,7 @@
   {
     "ContainingType": "UsersController",
     "Method": "GetAllUsers",
-    "RelativePath": "api/users/getallusers",
+    "RelativePath": "api/users/get/users",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -206,29 +206,8 @@
   },
   {
     "ContainingType": "UsersController",
-    "Method": "GetUserById",
-    "RelativePath": "api/users/getuserbyid",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "api-version",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "UsersController",
-    "Method": "Login",
-    "RelativePath": "api/users/login",
+    "Method": "CreateUser",
+    "RelativePath": "api/users/post/users",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -249,7 +228,7 @@
   {
     "ContainingType": "UsersController",
     "Method": "UpdateUser",
-    "RelativePath": "api/users/update",
+    "RelativePath": "api/users/put/users/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -262,7 +241,7 @@
       {
         "Name": "id",
         "Type": "System.Guid",
-        "IsRequired": false
+        "IsRequired": true
       },
       {
         "Name": "api-version",

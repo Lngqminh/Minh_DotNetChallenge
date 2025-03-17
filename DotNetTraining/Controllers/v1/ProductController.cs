@@ -21,33 +21,33 @@ namespace DotNetTraining.Controllers.v1
             this._productService = services.GetService<ProductService>()!;
         }
 
-        [HttpGet("getAllProducts")]
+        [HttpGet("GET/product")]
         public async Task<IActionResult> GetAllProducts()
         {
             var products = await _productService.GetAllProducts();
             return Success(products);
         }
 
-        [HttpGet("getProductById")]
-        public async Task<IActionResult> GetProductById([FromQuery] Guid id)
+        [HttpGet("GET/product/{id}")]
+        public async Task<IActionResult> GetProductById(Guid id)
         {
             var product = await _productService.GetProductById(id);
             return Success(product);
         }
 
-        [HttpPost("create")]
+        [HttpPost("POST/product")]
         public async Task<IActionResult> CreateProduct([FromBody] ProductDto dto)
         {
             return CreatedSuccess(await _service.CreateProduct(dto));
         }
 
-        [HttpPut("update")]
+        [HttpPut("PUT/product/{id}")]
         public async Task<IActionResult> UpdateProduct([FromBody] ProductDto dto, Guid id)
         {
             return Success(await _service.UpdateProduct(dto, id));
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("DELETE/product/{id}")]
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
             await _service.DeleteProduct(id);
