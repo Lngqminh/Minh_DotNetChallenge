@@ -4,7 +4,9 @@ using Application.Settings;
 using Common.Controllers;
 using DotNetTraining.Domains.Dtos;
 using DotNetTraining.Domains.Entities;
+using DotNetTraining.Requests;
 using DotNetTraining.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [Route("api/users")]

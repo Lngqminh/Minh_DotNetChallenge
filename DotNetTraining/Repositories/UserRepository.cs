@@ -56,16 +56,16 @@ namespace DotNetTraining.Repositories
              await DeleteAsync(user);
         }
 
-        public async Task<User?> GetByEmail(string email)
+        public async Task<User?> GetByEmailAsync(string email)
         {
             var sql = "SELECT * FROM Users WHERE Email = @Email";
             return await _connection.QuerySingleOrDefaultAsync<User>(sql, new { Email = email });
         }
 
-        public async Task<User?> GetByEmailAndPassword(string email, string password)
+        public async Task<User?> GetUserRoleByUserID(Guid id)
         {
-            var sql = "SELECT * FROM Users WHERE Email = @Email AND Password = @Password";
-            return await _connection.QuerySingleOrDefaultAsync<User>(sql, new { Email = email, Password = password });
+            var sql = "SELECT * FROM Users WHERE Id = @Id";
+            return await _connection.QuerySingleOrDefaultAsync<User>(sql, new { Id = id });
         }
     }
 }

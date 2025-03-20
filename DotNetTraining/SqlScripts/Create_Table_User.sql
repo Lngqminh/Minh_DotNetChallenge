@@ -1,12 +1,16 @@
-CREATE TABLE "User"
+CREATE TABLE "Users"
 (
     "Id" NVARCHAR(MAX) NOT NULL,
-    "Name" NVARCHAR(MAX),
+    "UserName" NVARCHAR(MAX),
+    "FirstName" NVARCHAR(MAX),
+    "LastName" NVARCHAR(MAX),
+    "Roles" NVARCHAR(MAX),
     "Email" NVARCHAR(MAX),
     "Password" NVARCHAR(MAX),
+    "FullName" NVARCHAR(MAX),
     "CreatedAt" NVARCHAR(MAX),
     "UpdatedAt" NVARCHAR(MAX),
     "Id" NVARCHAR(MAX),
-    CONSTRAINT "User_pkey" PRIMARY KEY ("Id")
+    CONSTRAINT "Users_pkey" PRIMARY KEY ("Id")
 )
 

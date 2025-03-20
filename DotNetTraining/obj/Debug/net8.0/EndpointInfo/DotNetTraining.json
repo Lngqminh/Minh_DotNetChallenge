@@ -14,7 +14,50 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/login/sign-up": {
+    "/api/login/post/sign-up": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "style": "form",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/login/post/sign-in": {
       "post": {
         "tags": [
           "Login"
@@ -50,237 +93,6 @@
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/login/sign-in": {
-      "post": {
-        "tags": [
-          "Login"
-        ],
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "description": "The requested API version",
-            "style": "form",
-            "schema": {
-              "type": "string",
-              "default": "1.0"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/product/get/product": {
-      "get": {
-        "tags": [
-          "Product"
-        ],
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "description": "The requested API version",
-            "style": "form",
-            "schema": {
-              "type": "string",
-              "default": "1.0"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/product/get/product/{id}": {
-      "get": {
-        "tags": [
-          "Product"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "api-version",
-            "in": "query",
-            "description": "The requested API version",
-            "style": "form",
-            "schema": {
-              "type": "string",
-              "default": "1.0"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/product/post/product": {
-      "post": {
-        "tags": [
-          "Product"
-        ],
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "description": "The requested API version",
-            "style": "form",
-            "schema": {
-              "type": "string",
-              "default": "1.0"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/product/put/product/{id}": {
-      "put": {
-        "tags": [
-          "Product"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "api-version",
-            "in": "query",
-            "description": "The requested API version",
-            "style": "form",
-            "schema": {
-              "type": "string",
-              "default": "1.0"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/product/delete/product/{id}": {
-      "delete": {
-        "tags": [
-          "Product"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "api-version",
-            "in": "query",
-            "description": "The requested API version",
-            "style": "form",
-            "schema": {
-              "type": "string",
-              "default": "1.0"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -479,34 +291,48 @@
   },
   "components": {
     "schemas": {
-      "ProductDto": {
+      "LoginRequest": {
+        "required": [
+          "email",
+          "password"
+        ],
         "type": "object",
         "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
+          "email": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
           },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
+          "password": {
+            "maxLength": 100,
+            "minLength": 6,
+            "type": "string"
           }
         },
         "additionalProperties": false
       },
       "UserDto": {
+        "required": [
+          "email"
+        ],
         "type": "object",
         "properties": {
-          "name": {
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
             "type": "string",
             "nullable": true
           },
           "email": {
+            "minLength": 1,
             "type": "string",
-            "nullable": true
+            "format": "email"
           },
           "password": {
             "type": "string",

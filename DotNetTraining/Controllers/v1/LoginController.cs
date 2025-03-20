@@ -1,6 +1,7 @@
 ﻿using Application.Settings;
 using Common.Controllers;
 using DotNetTraining.Domains.Dtos;
+using DotNetTraining.Requests;
 using DotNetTraining.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,13 +22,13 @@ namespace DotNetTraining.Controllers.v1
             this._userService = services.GetService<UserService>()!;
         }
 
-        [HttpPost("Sign-up")]
-        public async Task<IActionResult> Login([FromBody] UserDto dto)
+        [HttpPost("POST/Sign-up")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            return Success(await _service.GetUserByEmailAndPassword(dto.Email, dto.Password));
+            return Success(await _service.AuthenticateAsync(request));
         }
 
-        [HttpPost("Sign-in")]
+        [HttpPost("POST/Sign-in")]
         public async Task<IActionResult> Register([FromBody] UserDto dto)
         {
             try
@@ -37,7 +38,7 @@ namespace DotNetTraining.Controllers.v1
             }
             catch (Exception ex)
             {
-                if(ex.Message != "Not found user")
+                if (ex.Message != "Not found user")
                     return Success(await _service.CreateUser(dto));
                 return BadRequest(ex.Message);
             }
