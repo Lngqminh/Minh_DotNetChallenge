@@ -9,9 +9,10 @@ namespace DotNetTraining.Repositories
 {
     public class ProductRepository(IDbConnection connection): SimpleCrudRepository<Product, Guid>(connection)
     {
-        public async Task<IEnumerable<Product>> GetAll()
+        public IEnumerable<Product> GetAll()
         {
-            return await GetAllAsync();
+            var sql = "SELECT * FROM Product";
+            return _connection.Query<Product>(sql); // Trả về IEnumerable<Product>
         }
 
         public async Task<Product?> GetById(Guid id)

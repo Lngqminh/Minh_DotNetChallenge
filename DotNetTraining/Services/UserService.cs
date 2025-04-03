@@ -20,20 +20,43 @@ using Microsoft.Extensions.Configuration;
 using Utilities;
 using DotNetTraining.Domains.Models;
 using Domain.Enums;
+using Microsoft.Extensions.Options;
+using DotNetTraining.Common.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace DotNetTraining.Services
 {
     [ScopedService]
-    public class UserService(IServiceProvider services, ApplicationSetting setting, IDbConnection connection, IConfiguration configuration) : BaseService(services)
+    public class UserService(IServiceProvider services, ApplicationSetting setting, IDbConnection connection, IConfiguration configuration, IOptions<JwtTokenSetting> jwtTokenSetting) : BaseService(services)
     {
         private readonly UserRepository _repo = new(connection);
         private readonly IConfiguration _configuration = configuration;
-        private readonly JwtTokenSetting _jwtTokenSetting;
-        public async Task<List<UserModel>> GetAllUsers()
+        private readonly JwtTokenSetting _jwtTokenSetting = jwtTokenSetting.Value;
+        public async Task<BasePaginationList<UserModel>> GetAllUsers(PaginationFilter pagination, SortingFilter sorting, FilteringFilter filtering)
         {
-            var users = await _repo.GetAllAsync();
-            var result = _mapper.Map <List<UserModel>>(users);
-            return result;
+            var users = _repo.GetAllUsersQuery();
+            // Áp dụng lọc
+            if (!string.IsNullOrEmpty(filtering.SearchTerm))
+            {
+                users = users.Where(e => e.FullName.Contains(filtering.SearchTerm)); // Lọc người dùng theo tên
+            }
+
+            // Áp dụng sắp xếp
+            if (!string.IsNullOrEmpty(sorting.SortBy))
+            {
+                users = sorting.Descending
+                    ? users.OrderByDescending(e => e.GetType().GetProperty(sorting.SortBy).GetValue(e))
+                    : users.OrderBy(e => e.GetType().GetProperty(sorting.SortBy).GetValue(e));
+            }
+
+            // Áp dụng phân trang
+            var totalCount = users.Count(); // Tổng số người dùng
+            var pagedUsers = users.Skip((pagination.PageNumber - 1) * pagination.PageSize)
+                                   .Take(pagination.PageSize)
+                                   .ToList(); // Phân trang và chuyển đổi sang danh sách
+
+            var result = _mapper.Map<List<UserModel>>(pagedUsers);
+            return new BasePaginationList<UserModel>(result, totalCount, pagination.PageNumber, pagination.PageSize);
         }
 
         public async Task<UserModel?> GetUserById(Guid id)
@@ -64,6 +87,10 @@ namespace DotNetTraining.Services
         {
             var exitUser = await _repo.GetUserById(id);
             var user = _mapper.Map(updatedUser, exitUser);
+
+            var hasher = new HashingWithKeyService(_configuration);
+            user.Password = hasher.HashPassword(updatedUser.Password);
+
             var result = await _repo.UpdateAsync(user);
             if (result == null)
                 throw new Exception("Can Not update user");
@@ -84,9 +111,10 @@ namespace DotNetTraining.Services
             return result;
         }
 
+
         public async Task<string> AuthenticateAsync(LoginRequest request)
         {
-            var user = await _repo.GetByEmailAsync(request.Email);
+            var user = await _repo.GetByUserNameAsync(request.Username);
             if (user == null || user.Status == UserStatus.Deleted)
             {
                 throw new NonAuthenticateException("The account does not exist in the system. Please contact the admin to have the account added.");
@@ -97,7 +125,7 @@ namespace DotNetTraining.Services
                 throw new NonAuthenticateException("Account is not active. Please contact the administrator.");
             }
 
-            var hashingService = new HashingWithKeyService(_configuration);
+            var hashingService = new HashingWithKeyService(_configuration); 
             if (hashingService.VerifyPassword(user.Password, request.Password))
             {
                 user.LastLoggedIn = DateTime.Now;
@@ -106,10 +134,12 @@ namespace DotNetTraining.Services
                     await _repo.UpdateAsync(user);
                     var authenticatedUser = _mapper.Map<AuthenticatedUserModel>(user);
 
-                    var userRole = await _repo.GetUserRoleByUserID(user.Id);
-                    var roleString = userRole.ToString();
+                    var userRole = await _repo.GetUserRoleByEmail(user.Email);
 
-                    return JwtUtil.CreateJwtToken(_jwtTokenSetting, authenticatedUser, roleString);
+                    //Tạo JWT Token
+                    string jwtToken = JwtUtil.CreateJwtToken(_jwtTokenSetting, authenticatedUser, userRole);
+
+                    return jwtToken;
                 }
                 catch (Exception)
                 {

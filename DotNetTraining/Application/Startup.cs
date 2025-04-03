@@ -1,10 +1,12 @@
-using System.Reflection;
+﻿using System.Reflection;
 using Application.Settings;
 using Common.Application;
+using Common.Application.Settings;
 using Common.Databases;
 using Common.Loggers.Interfaces;
 using DotNetTraining.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 
 namespace Application

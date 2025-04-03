@@ -11,49 +11,47 @@ namespace DotNetTraining.Repositories
 {
     public class UserRepository(IDbConnection connection): SimpleCrudRepository<User,Guid>(connection)
     {
-        public async Task<IEnumerable<User>> GetAllUser()
+        //public async Task<IEnumerable<User>> GetAllUser()
+        //{
+        //    return await GetAllAsync();
+        //}
+
+        public IEnumerable<User> GetAllUsersQuery()
         {
-            //var sql = "SELECT * FROM Users";
-            //var user = await _connection.QueryAsync<User>(sql);
-            //return user.ToList();
-            return await GetAllAsync();
+            var sql = "SELECT * FROM Users";
+            return _connection.Query<User>(sql); // Trả về IEnumerable<User>
         }
 
         public async Task<User?> GetUserById(Guid id)
         {
-            //var sql = "SELECT * FROM Users WHERE Id = @Id";
             return await GetByIdAsync(id);
         }
 
         public async Task<User?> CreateUser(User user)
         {
-            //var sql = @"
-            //    INSERT INTO Users (Id, Name, Email, Password) 
-            //    VALUES (@Id, @Name, @Email, @Password);
-
-            //    SELECT * FROM Users WHERE Id = @Id;"; // Lấy lại user vừa tạo
-
-            //return await _connection.QuerySingleOrDefaultAsync<User>(sql, user);
             return await CreateAsync(user);
         }
         public async Task<User?> UpdateUser(User user)
         {
-            //var sql = @"
-            //    UPDATE Users SET Name = @Name, Email = @Email, Password = @Password 
-            //    WHERE Id = @Id;
-
-            //    SELECT * FROM Users WHERE Id = @Id;"; // Lấy lại user sau khi update
-
-            //return await _connection.QuerySingleOrDefaultAsync<User>(sql, new { user.Name, user.Email, user.Password, Id = id });
-
             return await UpdateAsync(user);
         }
 
         public async Task DeleteUser(User user)
         {
-            //var sql = "DELETE FROM Users WHERE Id = @Id";
-            //await _connection.ExecuteAsync(sql, new {Id = id});
              await DeleteAsync(user);
+        }
+
+        //Use for Authentication
+        public async Task<User?> GetByUserNameAsync(string username)
+        {
+            var sql = "SELECT * FROM Users WHERE UserName = @Username";
+            return await _connection.QuerySingleOrDefaultAsync<User>(sql, new { Username = username });
+        }
+
+        public async Task<string> GetUserRoleByEmail(string email)
+        {
+            var sql = "SELECT DISTINCT Roles FROM Users WHERE Email = @Email";
+            return await _connection.QuerySingleOrDefaultAsync<string>(sql, new { Email = email });
         }
 
         public async Task<User?> GetByEmailAsync(string email)
@@ -61,11 +59,6 @@ namespace DotNetTraining.Repositories
             var sql = "SELECT * FROM Users WHERE Email = @Email";
             return await _connection.QuerySingleOrDefaultAsync<User>(sql, new { Email = email });
         }
-
-        public async Task<User?> GetUserRoleByUserID(Guid id)
-        {
-            var sql = "SELECT * FROM Users WHERE Id = @Id";
-            return await _connection.QuerySingleOrDefaultAsync<User>(sql, new { Id = id });
-        }
+       
     }
 }

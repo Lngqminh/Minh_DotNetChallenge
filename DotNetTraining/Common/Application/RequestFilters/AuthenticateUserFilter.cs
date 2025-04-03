@@ -32,24 +32,38 @@ public class ValidateCurrentUserFilter : IAsyncActionFilter
                     case "AuthenticateWithAzure":
                     case "TestSyncAzureAccount":
                     case "AuthenticateWithAzureAsync":
-                   
+                    case "Login":
                     //case "AuthenticateWithAzure":
-                        // Skip validation for these actions
+                    // Skip validation for these actions
+                        await next();
+                        break;
+                    case "DeleteUser":
+                        var Deleteuser = _httpContextAccessor.HttpContext?.Items["User"] as AuthenticatedUserModel;
+                        if (Deleteuser == null)
+                        {
+                            throw new NonAuthenticateException("No Authen");
+                        }
+
+                        if (Deleteuser.Role != "Admin") // Chỉ cho phép Admin
+                        {
+                            context.Result = new ForbidResult(); // Trả về 403 Forbidden
+                            return;
+                        }
                         await next();
                         break;
                     default:
-                        //var userServiceType = typeof(AuthUserService<>).MakeGenericType(typeof(BaseAppSetting));
-                        //var authService = _serviceProvider.GetRequiredService(userServiceType);
+                        var userServiceType = typeof(AuthUserService<>).MakeGenericType(typeof(BaseAppSetting));
+                        var authService = _serviceProvider.GetRequiredService(userServiceType);
 
-                        //// Use reflection to call the GetUser method
-                        //var user = _httpContextAccessor.HttpContext?.Items["User"] as AuthenticatedUserModel;
-                        //if (user == null)
-                        //{
-                        //    throw new NonAuthenticateException("No Authen");
-                        //}
-                        //// Assuming your controller has a property "_currentUser" to hold this information
-                        //var currentUserProperty = controller.GetType().GetProperty("_currentUser");
-                        //currentUserProperty?.SetValue(controller, user);
+                        // Use reflection to call the GetUser method
+                        var user = _httpContextAccessor.HttpContext?.Items["User"] as AuthenticatedUserModel;
+                        if (user == null)
+                        {
+                            throw new NonAuthenticateException("No Authen");
+                        }
+                        // Assuming your controller has a property "_currentUser" to hold this information
+                        var currentUserProperty = controller.GetType().GetProperty("_currentUser");
+                        currentUserProperty?.SetValue(controller, user);
                         await next();
                         break;
 

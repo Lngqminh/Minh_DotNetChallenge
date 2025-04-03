@@ -24,7 +24,6 @@ namespace Common.Services
 
         private AuthenticatedUserModel? _user;
       
-       
         public BasePermissionSetting GetPermissionSetting()
         {
             return _permissionSetting;

@@ -30,8 +30,6 @@ namespace Common.Application.Middlewares
             var inputBytes = Encoding.UTF8.GetBytes(input);
             var hashBytes = md5.ComputeHash(inputBytes);
             return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
-
-
         }
 
         public override async Task Invoke(HttpContext context, IServiceProvider services, IConfiguration configuration)
@@ -56,8 +54,6 @@ namespace Common.Application.Middlewares
 
                     await next(context);
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -68,7 +64,6 @@ namespace Common.Application.Middlewares
 
         private async Task ValidateSignatureAsync(HttpContext context, IConfiguration configuration)
         {
-
             var signature = context.Request.Headers["Signature"].ToString();
             var time = context.Request.Headers["Time"].ToString();
 

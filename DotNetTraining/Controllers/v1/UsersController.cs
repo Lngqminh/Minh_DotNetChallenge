@@ -23,12 +23,16 @@ public class UsersController : BaseV1Controller<UserService, ApplicationSetting>
         this._userService = services.GetService<UserService>()!;
     }
 
-
+    //[Authorize(Roles = "GUEST")]
     [HttpGet("GET/users")]
-    public async Task<IActionResult> GetAllUsers()
+    public async Task<IActionResult> GetAllUsers(
+        [FromQuery] PaginationFilter pagination,
+        [FromQuery] SortingFilter sorting,
+        [FromQuery] FilteringFilter filtering)
     {
-        var user = await _userService.GetAllUsers();
-        return Success(user);
+        // Gọi phương thức GetAllUsers từ UserService
+        var result = await _userService.GetAllUsers(pagination, sorting, filtering);
+        return Success(result);
     }
 
     [HttpGet("GET/user/{id}")]

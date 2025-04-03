@@ -102,7 +102,7 @@ namespace Common.Application.Middlewares
                 var identity = (ClaimsIdentity)principal.Identity!;
 
                 if (identity != null)
-                {
+                {   
                     var roleClaim = identity.FindFirst(ClaimTypes.Role);
                     if (roleClaim != null)
                     {
