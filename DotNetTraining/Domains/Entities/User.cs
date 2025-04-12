@@ -13,9 +13,11 @@ namespace DotNetTraining.Domains.Entities
         public string LastName { get; set; }
         public string Roles { get; set; } = AuthenticatedUserModel.GuestRole;
         public UserStatus Status { get; set; } = UserStatus.Active;
+        public string RefreshToken { get; set; }
         public string Email { get; set; } 
         public string Password { get; set; } 
         public string FullName => $"{FirstName} {LastName}";
         public DateTime? LastLoggedIn { get; set; }
+        public DateTime ExpiryTime { get; set; }
     }
 }

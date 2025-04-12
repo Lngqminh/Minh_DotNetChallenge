@@ -14,4 +14,9 @@ namespace DotNetTraining.Requests
         [MaxLength(100, ErrorMessage = "Password must not exceed 100 characters.")]
         public string Password { get; set; }
     }
+
+    public class RefreshTokenRequest
+    {
+        public string RefreshToken { get; set; }
+    }
 }

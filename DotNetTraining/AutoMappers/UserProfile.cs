@@ -13,6 +13,7 @@ namespace DotNetTraining.AutoMappers
         {
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
+
             CreateMap<User, UserModel>()
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
             CreateMap<User, AuthenticatedUserModel>()
@@ -21,14 +22,6 @@ namespace DotNetTraining.AutoMappers
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
                 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Roles));
-            //CreateMap<AuthenticatedUserModel, User>()
-            //    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UserId))
-            //    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
-            //    .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
-            //    .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
-            //    .ForMember(dest => dest.Roles, opt => opt.MapFrom(src => src.Role));
-
-
         }
     }
 }

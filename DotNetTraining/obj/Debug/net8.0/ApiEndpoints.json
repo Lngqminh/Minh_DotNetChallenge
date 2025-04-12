@@ -1,6 +1,48 @@
 [
   {
     "ContainingType": "DotNetTraining.Controllers.v1.LoginController",
+    "Method": "Logout",
+    "RelativePath": "api/login/post/logout/{email}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "api-version",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DotNetTraining.Controllers.v1.LoginController",
+    "Method": "Refresh",
+    "RelativePath": "api/login/post/refresh-token",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DotNetTraining.Requests.RefreshTokenRequest",
+        "IsRequired": true
+      },
+      {
+        "Name": "api-version",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DotNetTraining.Controllers.v1.LoginController",
     "Method": "Register",
     "RelativePath": "api/login/post/sign-in",
     "HttpMethod": "POST",

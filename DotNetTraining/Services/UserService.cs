@@ -112,7 +112,7 @@ namespace DotNetTraining.Services
         }
 
 
-        public async Task<string> AuthenticateAsync(LoginRequest request)
+        public async Task<(string accessToken, string refreshToken)> AuthenticateAsync(LoginRequest request)
         {
             var user = await _repo.GetByUserNameAsync(request.Username);
             if (user == null || user.Status == UserStatus.Deleted)
@@ -138,15 +138,45 @@ namespace DotNetTraining.Services
 
                     //Tạo JWT Token
                     string jwtToken = JwtUtil.CreateJwtToken(_jwtTokenSetting, authenticatedUser, userRole);
+                    //Tạo Refresh Token
+                    var refreshToken = Guid.NewGuid().ToString("N");
+                    await _repo.SaveRefreshToken(user.Id, refreshToken, DateTime.UtcNow.AddDays(7));
+                    string refresh = refreshToken.ToString();
 
-                    return jwtToken;
+                    return (jwtToken, refresh);
                 }
                 catch (Exception)
                 {
-                    return null!;
+                    return (null,null);
                 }
             }
             throw new NonAuthenticateException();
+        }
+
+        public async Task<(string accessToken, string refreshToken)> RefreshTokenAsync(RefreshTokenRequest request)
+        {
+            var tokenEntity = await _repo.GetByToken(request.RefreshToken);
+            if (tokenEntity == null || tokenEntity.RefreshToken != request.RefreshToken)
+                throw new System.ApplicationException("Refresh Token không hợp lệ hoặc đã hết hạn.");
+
+            var user = await _repo.GetByEmailAsync(tokenEntity.Email);
+            if (user == null || user.Status != UserStatus.Active)
+                throw new NonAuthenticateException("Tài khoản không hợp lệ hoặc đã bị khóa.");
+
+            var authenticatedUser = _mapper.Map<AuthenticatedUserModel>(user);
+            var userRole = await _repo.GetUserRoleByEmail(user.Email);
+
+            var newAccessToken = JwtUtil.CreateJwtToken(_jwtTokenSetting, authenticatedUser, userRole);
+            var newRefreshToken = Guid.NewGuid().ToString("N");
+
+            await _repo.UpdateRefreshToken(request.RefreshToken, newRefreshToken);
+
+            return (newAccessToken, newRefreshToken);
+        }
+
+        public async Task LogoutAsync(string email)
+        {
+            await _repo.RemoveRefreshToken(email);
         }
     }
 }

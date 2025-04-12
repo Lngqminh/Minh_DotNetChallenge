@@ -9,7 +9,9 @@ using Common.Application.Settings;
 using Common.Databases;
 using Common.Loggers.Interfaces;
 using Common.Services;
+using DotNetTraining.Common.Services.Email;
 using Microsoft.Extensions.FileProviders;
+using Serilog;
 
 namespace Common.Application
 {
@@ -132,6 +134,22 @@ namespace Common.Application
             services.AddSingleton<BaseAppSetting, ApplicationSetting>();
             services.AddScoped<AuthUserService<BaseAppSetting>>();
             services.AddScoped<ValidateCurrentUserFilter>();
+            // Đăng ký JWT
+            services.Configure<JwtTokenSetting>(_builder.Configuration.GetSection("JwtTokenSetting"));
+            //Đăng ký Logger
+            services.AddTransient<IEmailLogService, EmailLogService>();
+            //Đăng ký SeriLog
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.File(
+                    path: "Logs/daily_task_log.txt",
+                    rollingInterval: RollingInterval.Infinite, // Không tạo file theo ngày
+                    shared: true,
+                    retainedFileCountLimit: null,
+                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] - {Message:lj}{NewLine}")
+                .CreateLogger();
+            _builder.Host.UseSerilog();
+
             services.AddControllers(options =>
             {
                 options.Filters.Add<ValidateCurrentUserFilter>(); // Apply the filter globally

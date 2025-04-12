@@ -23,7 +23,6 @@ public class UsersController : BaseV1Controller<UserService, ApplicationSetting>
         this._userService = services.GetService<UserService>()!;
     }
 
-    //[Authorize(Roles = "GUEST")]
     [HttpGet("GET/users")]
     public async Task<IActionResult> GetAllUsers(
         [FromQuery] PaginationFilter pagination,

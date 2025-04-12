@@ -25,7 +25,12 @@ namespace DotNetTraining.Controllers.v1
         [HttpPost("POST/Sign-up")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            return Success(await _service.AuthenticateAsync(request));
+            var result = await _service.AuthenticateAsync(request);
+            return Ok(new
+            {
+                accessToken = result.accessToken,
+                refreshToken = result.refreshToken
+            });
         }
 
         [HttpPost("POST/Sign-in")]
@@ -42,6 +47,20 @@ namespace DotNetTraining.Controllers.v1
                     return Success(await _service.CreateUser(dto));
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost("POST/Refresh-Token")]
+        public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest model)
+        {
+            var (accessToken, refreshToken) = await _service.RefreshTokenAsync(model);
+            return Ok(new { accessToken, refreshToken });
+        }
+
+        [HttpPost("POST/logout/{email}")]
+        public async Task<IActionResult> Logout(string email)
+        {
+            await _service.LogoutAsync(email);
+            return Ok("Logged out.");
         }
     }
 }

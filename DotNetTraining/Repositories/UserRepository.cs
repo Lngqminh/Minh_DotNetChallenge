@@ -59,6 +59,46 @@ namespace DotNetTraining.Repositories
             var sql = "SELECT * FROM Users WHERE Email = @Email";
             return await _connection.QuerySingleOrDefaultAsync<User>(sql, new { Email = email });
         }
-       
+
+        public async Task<User?> GetByToken(string token)
+        {
+            var sql = "SELECT * FROM Users WHERE RefreshToken = @Token";
+            return await GetOneByConditionAsync(sql, new { Token = token });
+        }
+
+        public async Task SaveRefreshToken(Guid userId, string refreshToken, DateTime expiry)
+        {
+            var existing = await GetByIdAsync(userId);
+            if (existing == null)
+            {
+                // Nếu user chưa tồn tại => lỗi logic, hoặc cần tạo mới với đủ dữ liệu
+                throw new Exception("User not found.");
+            }
+
+            // Cập nhật thuộc tính liên quan đến token
+            existing.RefreshToken = refreshToken;
+            existing.ExpiryTime = expiry;
+
+            await UpdateAsync(existing);
+        }
+
+        public async Task UpdateRefreshToken(string token, string newToken)
+        {
+            var entity = await GetByToken(token);
+            if (entity == null) return;
+
+            entity.RefreshToken = newToken;
+            entity.ExpiryTime = DateTime.Now;
+
+            await UpdateAsync(entity);
+        }
+
+        public async Task RemoveRefreshToken(string token)
+        {
+            var entity = await GetByToken(token);
+            if (entity != null)
+                await DeleteAsync(entity);
+        }
+
     }
 }
