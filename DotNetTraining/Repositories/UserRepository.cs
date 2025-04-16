@@ -11,11 +11,6 @@ namespace DotNetTraining.Repositories
 {
     public class UserRepository(IDbConnection connection): SimpleCrudRepository<User,Guid>(connection)
     {
-        //public async Task<IEnumerable<User>> GetAllUser()
-        //{
-        //    return await GetAllAsync();
-        //}
-
         public IEnumerable<User> GetAllUsersQuery()
         {
             var sql = "SELECT * FROM Users";

@@ -27,88 +27,136 @@ using Microsoft.EntityFrameworkCore;
 namespace DotNetTraining.Services
 {
     [ScopedService]
-    public class UserService(IServiceProvider services, ApplicationSetting setting, IDbConnection connection, IConfiguration configuration, IOptions<JwtTokenSetting> jwtTokenSetting) : BaseService(services)
+    public class UserService(IServiceProvider services, ApplicationSetting setting, IDbConnection connection, IConfiguration configuration, IOptions<JwtTokenSetting> jwtTokenSetting, ILogger<UserService> logger) : BaseService(services)
     {
         private readonly UserRepository _repo = new(connection);
         private readonly IConfiguration _configuration = configuration;
         private readonly JwtTokenSetting _jwtTokenSetting = jwtTokenSetting.Value;
+        private readonly ILogger<UserService> _logger = logger;
         public async Task<BasePaginationList<UserModel>> GetAllUsers(PaginationFilter pagination, SortingFilter sorting, FilteringFilter filtering)
         {
-            var users = _repo.GetAllUsersQuery();
-            // Áp dụng lọc
-            if (!string.IsNullOrEmpty(filtering.SearchTerm))
+            try
             {
-                users = users.Where(e => e.FullName.Contains(filtering.SearchTerm)); // Lọc người dùng theo tên
-            }
+                var users = _repo.GetAllUsersQuery();
 
-            // Áp dụng sắp xếp
-            if (!string.IsNullOrEmpty(sorting.SortBy))
+                if (!string.IsNullOrEmpty(filtering.SearchTerm))
+                {
+                    users = users.Where(e => e.FullName.Contains(filtering.SearchTerm));
+                }
+
+                if (!string.IsNullOrEmpty(sorting.SortBy))
+                {
+                    users = sorting.Descending
+                        ? users.OrderByDescending(e => e.GetType().GetProperty(sorting.SortBy).GetValue(e))
+                        : users.OrderBy(e => e.GetType().GetProperty(sorting.SortBy).GetValue(e));
+                }
+
+                var totalCount = users.Count();
+                var pagedUsers = users.Skip((pagination.PageNumber - 1) * pagination.PageSize)
+                                    .Take(pagination.PageSize)
+                                    .ToList();
+
+                var result = _mapper.Map<List<UserModel>>(pagedUsers);
+                return new BasePaginationList<UserModel>(result, totalCount, pagination.PageNumber, pagination.PageSize);
+            }
+            catch (Exception ex)
             {
-                users = sorting.Descending
-                    ? users.OrderByDescending(e => e.GetType().GetProperty(sorting.SortBy).GetValue(e))
-                    : users.OrderBy(e => e.GetType().GetProperty(sorting.SortBy).GetValue(e));
+                _logger.LogError(ex, "Lỗi khi lấy danh sách user");
+                throw;
             }
-
-            // Áp dụng phân trang
-            var totalCount = users.Count(); // Tổng số người dùng
-            var pagedUsers = users.Skip((pagination.PageNumber - 1) * pagination.PageSize)
-                                   .Take(pagination.PageSize)
-                                   .ToList(); // Phân trang và chuyển đổi sang danh sách
-
-            var result = _mapper.Map<List<UserModel>>(pagedUsers);
-            return new BasePaginationList<UserModel>(result, totalCount, pagination.PageNumber, pagination.PageSize);
         }
 
         public async Task<UserModel?> GetUserById(Guid id)
         {
-            var result = await _repo.GetUserById(id);
-            if (result == null)
-                throw new Exception("Not found user");
-            //Map model
-            var userModel = _mapper.Map<UserModel>(result);
-            return userModel;
+            try
+            {
+                var result = await _repo.GetUserById(id);
+                if (result == null)
+                    throw new Exception("Not found user");
+
+                return _mapper.Map<UserModel>(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi khi lấy user theo ID: {Id}", id);
+                throw;
+            }
         }
 
         public async Task<User?> CreateUser(UserDto newUser)
         {
-            var user = _mapper.Map<User>(newUser);
-            user.Id = Guid.NewGuid();
+            try
+            {
+                var user = _mapper.Map<User>(newUser);
+                user.Id = Guid.NewGuid();
 
-            var hasher = new HashingWithKeyService(_configuration);
-            user.Password = hasher.HashPassword(newUser.Password);
+                var hasher = new HashingWithKeyService(_configuration);
+                user.Password = hasher.HashPassword(newUser.Password);
 
-            var result = await _repo.CreateAsync(user);
+                var result = await _repo.CreateAsync(user);
 
-            if (result == null)
-                throw new Exception("Can not create new user");
-            return result;
+                if (result == null)
+                    throw new Exception("Can not create new user");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi khi tạo user mới: {Email}", newUser.Email);
+                throw;
+            }
         }
         public async Task<User?> UpdateUser(UserDto updatedUser, Guid id)
         {
-            var exitUser = await _repo.GetUserById(id);
-            var user = _mapper.Map(updatedUser, exitUser);
+            try
+            {
+                var exitUser = await _repo.GetUserById(id);
+                var user = _mapper.Map(updatedUser, exitUser);
 
-            var hasher = new HashingWithKeyService(_configuration);
-            user.Password = hasher.HashPassword(updatedUser.Password);
+                var hasher = new HashingWithKeyService(_configuration);
+                user.Password = hasher.HashPassword(updatedUser.Password);
 
-            var result = await _repo.UpdateAsync(user);
-            if (result == null)
-                throw new Exception("Can Not update user");
-            return result;
+                var result = await _repo.UpdateAsync(user);
+                if (result == null)
+                    throw new Exception("Can Not update user");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi khi cập nhật user: {Id}", id);
+                throw;
+            }
         }
 
         public async Task DeleteUser(Guid id)
         {
-            var user = await _repo.GetUserById(id);
-            await _repo.DeleteAsync(user);
+            try
+            {
+                var user = await _repo.GetUserById(id);
+                await _repo.DeleteAsync(user);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi khi xóa user: {Id}", id);
+                throw;
+            }
         }
 
         public async Task<User?> GetUserByEmail(string email)
         {
-            var result = await _repo.GetByEmailAsync(email);
-            if (result == null)
-                throw new Exception("User not found");
-            return result;
+            try
+            {
+                var result = await _repo.GetByEmailAsync(email);
+                if (result == null)
+                    throw new Exception("User not found");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi khi lấy user theo email: {Email}", email);
+                throw;
+            }
         }
 
 
